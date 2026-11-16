@@ -155,7 +155,7 @@
 
     const randomOpt = document.createElement("option");
     randomOpt.value = "random";
-    randomOpt.textContent = "🎲 隨機組卷（每次從 140 題隨機抽 28 題）";
+    randomOpt.textContent = "🎲 隨機組卷（每次從 164 題隨機抽 28 題）";
     els.examSetSelect.appendChild(randomOpt);
 
     for (let i = 1; i <= TOTAL_SETS; i++) {
