@@ -26,6 +26,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+select,
+label {
+  touch-action: manipulation;
 }
 
 body {
@@ -1001,13 +1008,118 @@ body {
   }
 }
 
+@media (max-width: 640px) {
+  .header-inner {
+    padding: 0.65rem 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .brand {
+    gap: 0.6rem;
+  }
+  .brand-badge {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .brand-text h1 {
+    font-size: 0.98rem;
+  }
+  .brand-text p {
+    display: none;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.45rem;
+  }
+  .mode-pill,
+  .timer-pill {
+    font-size: 0.75rem;
+    padding: 0.22rem 0.55rem;
+  }
+  .main-container {
+    padding: 1rem 0.85rem 2.25rem;
+  }
+  .hero-card h2 {
+    font-size: 1.45rem;
+  }
+  .set-select {
+    width: 100%;
+    min-width: 0;
+  }
+  .quiz-nav-footer {
+    position: sticky;
+    bottom: 0;
+    background: rgba(247, 246, 242, 0.96);
+    backdrop-filter: blur(6px);
+    padding: 0.65rem 0;
+    margin-top: 1rem;
+    z-index: 20;
+  }
+  .quiz-nav-footer .btn {
+    flex: 1;
+    min-height: 46px;
+  }
+  .result-top {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.1rem;
+  }
+  .result-meta-stats {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 520px) {
   .hero-card,
   .question-card,
-  .result-summary-card {
-    padding: 1.25rem;
+  .result-summary-card,
+  .review-card {
+    padding: 1.1rem;
+  }
+  .passage-box,
+  .listening-box {
+    padding: 0.95rem 1rem;
+  }
+  .passage-content {
+    font-size: 0.98rem;
+    line-height: 1.8;
+  }
+  .question-prompt {
+    font-size: 1.12rem;
+    line-height: 1.75;
+    margin-bottom: 1.1rem;
+  }
+  .option-btn {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.98rem;
+    min-height: 48px;
+    gap: 0.7rem;
+  }
+  .set-selector-row .btn,
+  .start-actions .btn,
+  .result-actions .btn {
+    width: 100%;
+    min-height: 46px;
+  }
+  .result-actions {
+    flex-direction: column;
+  }
+  .review-filters {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .review-filters .pill {
+    flex: 1;
+    text-align: center;
+    padding: 0.45rem 0.6rem;
   }
   .palette-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+  }
+  .palette-btn {
+    height: 38px;
+    font-size: 0.82rem;
   }
 }
