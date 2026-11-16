@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLPT N5 線上模擬試題測試｜日本語能力試驗</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand" id="brandHome" role="button" tabindex="0" title="回到首頁">
+          <span class="brand-badge">JLPT N5</span>
+          <div class="brand-text">
+            <h1>日本語能力試驗 模擬測驗</h1>
+            <p>文字・語彙・文法・読解・聴解（附完整詳解）</p>
+          </div>
+        </div>
+        <div class="header-actions" id="headerActions">
+          <!-- Populated dynamically during quiz -->
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+      <!-- 1. Start / Configuration View -->
+      <section id="startView" class="view active">
+        <div class="hero-card">
+          <div class="hero-tag">日本語能力試験 N5 対策</div>
+          <h2>線上模擬試題測試</h2>
+          <p class="hero-desc">
+            收錄 <strong>140 題</strong> JLPT N5 核心題庫，支援 <strong>第 1 回 ～ 第 100 回</strong> 模擬試卷組卷（每回 28 題，涵蓋文字・語彙、文法、読解與聴解），每題皆附<strong>題目漢字</strong>與完整中文詳解。
+          </p>
+
+          <div class="config-grid">
+            <div class="config-block">
+              <h3>1. 選擇試卷回數（100 組固定試卷）</h3>
+              <div class="set-selector-row">
+                <select id="examSetSelect" class="set-select" aria-label="選擇試卷回數"></select>
+                <button type="button" id="randomSetBtn" class="btn btn-outline">🎲 隨機選一回</button>
+              </div>
+              <p class="set-hint" id="setHint">每回依固定種子抽出 28 題（文字・語彙 10 ＋ 文法 10 ＋ 読解 5 ＋ 聴解 3），可重複練習並記錄最高分。</p>
+            </div>
+
+            <div class="config-block">
+              <h3>2. 選擇測驗模式</h3>
+              <div class="option-cards" id="modeSelector">
+                <label class="mode-card selected">
+                  <input type="radio" name="examMode" value="practice" checked />
+                  <div class="mode-title">練習模式（即時詳解）</div>
+                  <div class="mode-sub">作答後立即顯示對錯、題目漢字與答案解釋，適合邊做邊學。</div>
+                </label>
+                <label class="mode-card">
+                  <input type="radio" name="examMode" value="exam" />
+                  <div class="mode-title">模擬考試（計時交卷）</div>
+                  <div class="mode-sub">限時 25 分鐘，模擬真實考場節奏，交卷後統一看詳解。</div>
+                </label>
+              </div>
+            </div>
+
+            <div class="config-block">
+              <h3>3. 選擇測驗範圍</h3>
+              <div class="section-pills" id="sectionSelector">
+                <button type="button" class="pill active" data-section="all">本回全科 (28題)</button>
+                <button type="button" class="pill" data-section="vocab">文字・語彙題庫 (50題)</button>
+                <button type="button" class="pill" data-section="grammar">文法題庫 (46題)</button>
+                <button type="button" class="pill" data-section="reading">読解題庫 (26題)</button>
+                <button type="button" class="pill" data-section="listening">聴解題庫 (18題)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="start-actions">
+            <button id="startBtn" class="btn btn-primary btn-lg">開始測驗</button>
+          </div>
+
+          <div class="exam-info-grid">
+            <div class="info-item">
+              <span class="info-label">題型涵蓋</span>
+              <span class="info-value">漢字讀音、表記、文脈、文法、★重組、短文閱讀、聽力</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">及格參考</span>
+              <span class="info-value">總分達 60% 以上（且各科均衡發展）</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">快捷鍵支援</span>
+              <span class="info-value">數字鍵 1–4 選答，← / → 切換題目</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Quiz View -->
+      <section id="quizView" class="view">
+        <div class="quiz-layout">
+          <div class="quiz-main">
+            <!-- Progress & Meta -->
+            <div class="quiz-meta-bar">
+              <div class="meta-left">
+                <span class="section-badge" id="qSectionBadge">文字・語彙</span>
+                <span class="q-type-label" id="qTypeLabel">問題1 漢字読み</span>
+              </div>
+              <div class="meta-right">
+                <span class="q-counter" id="qCounter">第 1 / 28 題</span>
+                <button type="button" class="btn-icon" id="flagBtn" title="標記此題以便複習">
+                  <span id="flagIcon">☆</span> 標記
+                </button>
+              </div>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Reading Passage (if applicable) -->
+            <div class="passage-box hidden" id="passageBox">
+              <div class="passage-header">
+                <span>📖 閱讀文章</span>
+              </div>
+              <div class="passage-content" id="passageContent"></div>
+            </div>
+
+            <!-- Listening Audio Controls (if applicable) -->
+            <div class="listening-box hidden" id="listeningBox">
+              <div class="listening-controls">
+                <button type="button" class="btn btn-secondary" id="playAudioBtn">
+                  🔊 播放日語語音
+                </button>
+                <span class="audio-status" id="audioStatus">點擊播放聽力題目（使用瀏覽器日語語音合成）</span>
+              </div>
+              <div class="transcript-toggle-wrap">
+                <button type="button" class="btn-link" id="toggleTranscriptBtn">顯示 / 隱藏聽力逐字稿</button>
+                <div class="transcript-box hidden" id="transcriptBox"></div>
+              </div>
+            </div>
+
+            <!-- Question Card -->
+            <article class="question-card">
+              <div class="question-instruction" id="qInstruction"></div>
+              <div class="question-prompt" id="qPrompt"></div>
+
+              <div class="options-list" id="optionsList" role="radiogroup" aria-label="選項">
+                <!-- Options injected by JS -->
+              </div>
+
+              <!-- Immediate Explanation (Practice Mode) -->
+              <div class="explanation-box hidden" id="explanationBox">
+                <div class="explanation-header" id="explanationHeader"></div>
+                <div class="explanation-body" id="explanationBody"></div>
+                <div class="explanation-keypoints hidden" id="explanationKeypoints"></div>
+              </div>
+            </article>
+
+            <!-- Navigation Footer -->
+            <div class="quiz-nav-footer">
+              <button type="button" class="btn btn-outline" id="prevBtn">← 上一題</button>
+              <div class="nav-center-hint">可使用鍵盤 1-4 作答</div>
+              <button type="button" class="btn btn-primary" id="nextBtn">下一題 →</button>
+            </div>
+          </div>
+
+          <!-- Question Navigator Sidebar -->
+          <aside class="quiz-sidebar" id="quizSidebar">
+            <div class="sidebar-card">
+              <div class="sidebar-header">
+                <h3>題目導覽</h3>
+                <span class="answered-summary" id="answeredSummary">0 / 28 已答</span>
+              </div>
+              <div class="palette-grid" id="paletteGrid"></div>
+              <div class="palette-legend">
+                <span><i class="dot dot-current"></i>目前</span>
+                <span><i class="dot dot-answered"></i>已答</span>
+                <span><i class="dot dot-flagged"></i>標記</span>
+              </div>
+              <button type="button" class="btn btn-danger-outline btn-block" id="submitExamBtn">
+                交卷並查看結果
+              </button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 3. Results & Review View -->
+      <section id="resultView" class="view">
+        <div class="result-summary-card">
+          <div class="result-top">
+            <div class="score-circle" id="scoreCircle">
+              <div class="score-num" id="scoreNum">0%</div>
+              <div class="score-sub" id="scoreFraction">0 / 28</div>
+            </div>
+            <div class="result-verdict">
+              <span class="verdict-badge" id="verdictBadge">測驗完成</span>
+              <h2 id="verdictTitle">模擬測驗成績報告</h2>
+              <p id="verdictDesc"></p>
+              <div class="result-meta-stats" id="resultMetaStats"></div>
+            </div>
+          </div>
+
+          <div class="section-breakdown" id="sectionBreakdown">
+            <!-- Breakdown bars injected by JS -->
+          </div>
+
+          <div class="result-actions">
+            <button type="button" class="btn btn-primary" id="retryWrongBtn">錯題重練</button>
+            <button type="button" class="btn btn-outline" id="restartBtn">重新開始測驗</button>
+          </div>
+        </div>
+
+        <!-- Detailed Review List -->
+        <div class="review-section">
+          <div class="review-header">
+            <h3>逐題答案與詳解</h3>
+            <div class="review-filters" id="reviewFilters">
+              <button type="button" class="pill active" data-filter="all">全部題目</button>
+              <button type="button" class="pill" data-filter="wrong">只看錯題</button>
+              <button type="button" class="pill" data-filter="flagged">已標記</button>
+            </div>
+          </div>
+          <div class="review-list" id="reviewList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="questions_extra.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
